@@ -1,6 +1,6 @@
 <?php
     include 'class/Database.php';
-    include 'class/Images.php';
+    // include 'class/Images.php';
 
     // RELATION A LA BDD 
     class DbConnect extends Database {
@@ -87,7 +87,6 @@
         $stmt->execute();
         header("refresh:30");
         return 'Le compte a bien été supprimé!';
-       
     }
 
     // ************************ AJOUT D'UN CHANTIER ************************//
@@ -119,7 +118,7 @@
     //AJOUT D'IMAGE
     public function ajoutImage($dossierImage, $fichier, $nomFichierUpload){
         
-        var_dump($fichier);
+        //var_dump($fichier);
         $target_file = $dossierImage . basename($fichier[$nomFichierUpload]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -162,4 +161,94 @@
         }
         }
     }
+    
+    // **********  GESTION DES FOURNISSEURS **********/
+
+    public function readFournisseurs(){
+    $checkCompteQuery = "SELECT * FROM collab WHERE id_style=1";
+    $checkCompteStmt = $this->dbConnect->prepare($checkCompteQuery);
+    $checkCompteStmt ->execute();
+    return $checkCompteStmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+     public function readVu(){
+        $checkVuQuery = "SELECT visibilite_collab FROM collab WHERE id_style= 1 ";
+        $checkVuStmt = $this->dbConnect->prepare($checkVuQuery);
+        $checkVuStmt ->execute();
+        return $checkVuStmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+    // SUPPRESSION FOURNISSEURS
+    public function suppFournisseurs($idFournisseur){
+        $sql = "DELETE FROM collab WHERE id_style=1 AND id_collab=:id_collab";
+        $stmt = $this->dbConnect->prepare($sql);
+        $stmt->bindValue(":id_collab", $idFournisseur, PDO::PARAM_INT);
+        $stmt->execute();
+        header("refresh:30");
+        return 'Le fournisseur a bien été supprimé!';
+    }
+
+    // **********  GESTION DES ENTREPRISES **********/
+    public function readEntreprises(){
+        $checkCompteQuery = "SELECT * FROM collab WHERE id_style=2";
+        $checkCompteStmt = $this->dbConnect->prepare($checkCompteQuery);
+        $checkCompteStmt ->execute();
+        return $checkCompteStmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+    // SUPPRESSION ENTREPRISES    
+    public function suppEntreprises($idEntreprise){
+        $sql = "DELETE FROM collab WHERE id_style=2 AND id_collab=:id_collab";
+        $stmt = $this->dbConnect->prepare($sql);
+        $stmt->bindValue(":id_collab", $idEntreprise, PDO::PARAM_INT);
+        $stmt->execute();
+        header("refresh:30");
+        return 'L\' entreprise a bien été supprimé!';
+    }
+    // visibilité des fournisseurs
+    public function vu($idCollab){  
+    $sql = "UPDATE collab 
+            SET visibilite_collab = NOT visibilite_collab
+            WHERE id_collab=:id_collab";
+    $stmt = $this->dbConnect->prepare($sql);
+    $stmt->bindValue(':id_collab', $idCollab, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    header("refresh:1");
+
+    }
+
+    public function idFournisseur(){
+    $checkVuQuery = "SELECT id_collab FROM collab WHERE id_style=1";
+    $checkVuStmt = $this->dbConnect->prepare($checkVuQuery);
+    $checkVuStmt ->execute();
+    return $checkVuStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    //***************************************************************
+    // Ajout d'un partenaire
+    public function insertPartenaire ($nomCollab,$logoCollab){        
+        $sqlinsertPartenaire = "INSERT INTO collab(nom_collab, logo_collab, id_style)
+                                VALUES (:nom_collab, :logo_collab, :id_style)";
+        $stmtinsertPartenaire =$this->dbConnect->prepare($sqlinsertPartenaire);
+        $stmtinsertPartenaire->bindValue(':nom_collab', $nomCollab);
+        $stmtinsertPartenaire->bindValue(':logo_collab', $logoCollab);
+        $stmtinsertPartenaire->bindValue(':id_style', "1");
+        $stmtinsertPartenaire->execute();
+        return 'Le partenaire a bien ajouté';
+    } 
+
+    // Ajout d'une entreprise    
+    public function insertEntreprise ($nomCollab,$logoCollab){        
+        $sqlinsertEntreprise = "INSERT INTO collab(nom_collab, logo_collab, id_style)
+                                VALUES (:nom_collab, :logo_collab, :id_style)";
+        $stmtinsertEntreprise =$this->dbConnect->prepare($sqlinsertEntreprise);
+        $stmtinsertEntreprise->bindValue(':nom_collab', $nomCollab);
+        $stmtinsertEntreprise->bindValue(':logo_collab', $logoCollab);
+        $stmtinsertEntreprise->bindValue(':id_style', "2");
+        $stmtinsertEntreprise->execute();
+        return 'L entreprise a bien ajouté';
+    }
+
+    } 

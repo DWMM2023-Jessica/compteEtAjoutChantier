@@ -1,0 +1,95 @@
+@font-face  {
+    font-family: 'KushanScript';
+    src:url(KaushanScript-Regular.ttf) 
+   }
+
+.partenaire{
+    display: flex;
+    flex-wrap: wrap; 
+}
+
+.titrePartenaire{
+    font-family: 'KushanScript';
+    text-align: center;
+    font-size: 35px;
+}
+
+.listeFournisseur{
+    font-family: 'KushanScript';
+    text-align: center;
+    font-size: 25px;
+}
+
+.cardFournisseurEntreprise{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    max-width: 400px;
+    max-height;: 300px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    
+    
+}
+.cardLogo{
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.FieldestPartenaire, .FieldestEntreprise {
+    display: flex;
+    justify-content: center;
+    width: 700px;
+
+   
+}
+
+.LegendPartenaire, .LegendEntreprise {
+    font-family: 'KushanScript';
+    text-align: center;
+    font-size: 20px;
+
+}
+
+
+.FieldestPartenaire p, .FieldestEntreprise p {
+    text-align: center;
+}
+
+.ajouterPartenaire{
+    background-color: #346077;
+    color: aliceblue;
+    border-radius: 5px;
+    font-size : 20px;
+    text-align: center;
+
+
+}
+
+.ajouterEntreprise {
+    background-color: #346077;
+    color: aliceblue;
+    border-radius: 5px;
+   font-size : 20px;
+   text-align: center;
+}
+
+.sectionEntreprise, .sectionPartenaire {
+    display: flex;
+    justify-content: center;
+}
+.sectionPartenaire input, .sectionEntreprise input{
+    width: 300px; 
+}
+
+.card-contenue {
+    text-align: center;
+    
+}   
+
+.partenaire{
+    display: flex;
+    justify-content: center;
+}
+
